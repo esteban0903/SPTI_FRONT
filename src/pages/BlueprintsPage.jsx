@@ -14,6 +14,8 @@ export default function BlueprintsPage() {
   const [selectedAuthor, setSelectedAuthor] = useState('')
   const items = byAuthor[selectedAuthor] || []
 
+  // ...existing code...
+
   useEffect(() => {
     dispatch(fetchAuthors())
   }, [dispatch])
