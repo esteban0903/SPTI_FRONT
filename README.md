@@ -42,7 +42,10 @@ Abre `http://localhost:5173`
 Crea un archivo `.env` en la raíz:
 
 ```variable
-VITE_API_BASE_URL=http://localhost:8080/api
+# IMPORTANT: The client app appends the API paths starting with `/api/v1/...`.
+# Set the base URL to the server origin WITHOUT a trailing `/api` to avoid
+# duplicated `/api/api` when the app constructs requests. Example:
+VITE_API_BASE_URL=http://localhost:8080
 ```
 
 > **Tip:** en producción usa variables seguras o un _reverse proxy_.

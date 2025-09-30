@@ -85,15 +85,9 @@ export default function BlueprintCanvas({ points = [], width = 520, height = 360
   return (
     <canvas
       ref={ref}
+      className="blueprint-canvas"
       width={width}
       height={height}
-      style={{
-        background: '#0b1220',
-        border: '1px solid #334155',
-        borderRadius: 12,
-        width: '100%',
-        maxWidth: width,
-      }}
     />
   )
 }
