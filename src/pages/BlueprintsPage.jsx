@@ -6,6 +6,8 @@ import {
   fetchBlueprint,
 } from '../features/blueprints/blueprintsSlice.js'
 import BlueprintCanvas from '../components/BlueprintCanvas.jsx'
+import { useNavigate } from 'react-router-dom'
+import { deleteBlueprint } from '../features/blueprints/blueprintsSlice.js'
 
 export default function BlueprintsPage() {
   const dispatch = useDispatch()
@@ -34,7 +36,14 @@ export default function BlueprintsPage() {
   }
 
   const openBlueprint = (bp) => {
-    dispatch(fetchBlueprint({ author: bp.author, name: bp.name }))
+    // prefer navigation to protected detail route
+    navigate(`/blueprints/${encodeURIComponent(bp.author)}/${encodeURIComponent(bp.name)}`)
+  }
+
+  const navigate = useNavigate()
+  const handleDeleteRow = (bp) => {
+    if (!confirm('Eliminar este blueprint?')) return
+    dispatch(deleteBlueprint({ author: bp.author, name: bp.name }))
   }
 
   return (
@@ -112,9 +121,14 @@ export default function BlueprintsPage() {
                         {bp.points?.length || 0}
                       </td>
                       <td style={{ padding: '8px', borderBottom: '1px solid #1f2937' }}>
-                        <button className="btn" onClick={() => openBlueprint(bp)}>
-                          Open
-                        </button>
+                        <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+                          <button className="btn" onClick={() => openBlueprint(bp)}>
+                            Open
+                          </button>
+                          <button className="btn" onClick={() => handleDeleteRow(bp)}>
+                            Delete
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}

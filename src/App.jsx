@@ -3,7 +3,6 @@ import BlueprintsPage from './pages/BlueprintsPage.jsx'
 import BlueprintDetailPage from './pages/BlueprintDetailPage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import NotFound from './pages/NotFound.jsx'
-import PrivateRoute from './components/PrivateRoute.jsx'
 
 export default function App() {
   return (
@@ -19,14 +18,7 @@ export default function App() {
       </header>
       <Routes>
         <Route path="/" element={<BlueprintsPage />} />
-        <Route
-          path="/blueprints/:author/:name"
-          element={
-            <PrivateRoute>
-              <BlueprintDetailPage />
-            </PrivateRoute>
-          }
-        />
+        <Route path="/blueprints/:author/:name" element={<BlueprintDetailPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
