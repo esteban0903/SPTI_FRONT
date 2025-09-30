@@ -19,7 +19,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<BlueprintsPage />} />
         <Route path="/blueprints/:author/:name" element={<BlueprintDetailPage />} />
-        <Route path="/login" element={<LoginPage />} />
+  <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

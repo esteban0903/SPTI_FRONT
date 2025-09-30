@@ -6,8 +6,6 @@ import {
   fetchBlueprint,
 } from '../features/blueprints/blueprintsSlice.js'
 import BlueprintCanvas from '../components/BlueprintCanvas.jsx'
-import { useNavigate } from 'react-router-dom'
-import { deleteBlueprint } from '../features/blueprints/blueprintsSlice.js'
 
 export default function BlueprintsPage() {
   const dispatch = useDispatch()
@@ -24,6 +22,7 @@ export default function BlueprintsPage() {
     dispatch(fetchAuthors())
   }, [dispatch])
 
+
   const totalPoints = useMemo(
     () => items.reduce((acc, bp) => acc + (bp.points?.length || 0), 0),
     [items],
@@ -36,14 +35,7 @@ export default function BlueprintsPage() {
   }
 
   const openBlueprint = (bp) => {
-    // prefer navigation to protected detail route
-    navigate(`/blueprints/${encodeURIComponent(bp.author)}/${encodeURIComponent(bp.name)}`)
-  }
-
-  const navigate = useNavigate()
-  const handleDeleteRow = (bp) => {
-    if (!confirm('Eliminar este blueprint?')) return
-    dispatch(deleteBlueprint({ author: bp.author, name: bp.name }))
+    dispatch(fetchBlueprint({ author: bp.author, name: bp.name }))
   }
 
   return (
@@ -68,6 +60,7 @@ export default function BlueprintsPage() {
           <h3 style={{ marginTop: 0 }}>
             {selectedAuthor ? `${selectedAuthor}'s blueprints:` : 'Results'}
           </h3>
+          
           {loading.byAuthor && <p>Cargando planos del autor...</p>}
           {errors.byAuthor && (
             <div style={{ marginBottom: 8 }}>
@@ -121,14 +114,9 @@ export default function BlueprintsPage() {
                         {bp.points?.length || 0}
                       </td>
                       <td style={{ padding: '8px', borderBottom: '1px solid #1f2937' }}>
-                        <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
-                          <button className="btn" onClick={() => openBlueprint(bp)}>
-                            Open
-                          </button>
-                          <button className="btn" onClick={() => handleDeleteRow(bp)}>
-                            Delete
-                          </button>
-                        </div>
+                        <button className="btn" onClick={() => openBlueprint(bp)}>
+                          Open
+                        </button>
                       </td>
                     </tr>
                   ))}
