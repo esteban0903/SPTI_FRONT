@@ -20,7 +20,10 @@ function makeStore(preloaded) {
       current: null,
       status: 'idle',
       error: null,
+      loading: { byAuthor: false },
+      errors: { byAuthor: null },
       ...preloaded,
+      
     },
     reducers: {},
   })

@@ -9,8 +9,9 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "test": "vitest --run",
-    "test:ui": "vitest"
+    "test": "vitest",
+    "test:ci": "vitest --run",
+    "test:ui": "vitest --ui"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.0",

@@ -1,5 +1,7 @@
+import { afterEach } from 'vitest'
+import { cleanup } from '@testing-library/react'
 import '@testing-library/jest-dom'
-
+afterEach(() => cleanup())
 // ---- Canvas mock para jsdom ----
 if (!HTMLCanvasElement.prototype.getContext) {
   HTMLCanvasElement.prototype.getContext = () => {
