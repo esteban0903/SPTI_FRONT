@@ -77,3 +77,79 @@ nav a {
 nav a.active {
   background: #334155;
 }
+
+/* Card header */
+.card h2, .card h3 {
+  margin: 0 0 8px 0;
+  color: #e6eef8;
+}
+.card .card-body {
+  margin-top: 8px;
+}
+
+/* Table styles */
+.table-wrapper {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #1f2937;
+}
+table.blueprints {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+table.blueprints thead th {
+  background: linear-gradient(180deg, #0b1220, #0f172a);
+  color: #94a3b8;
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 1px solid #1f2937;
+}
+table.blueprints tbody td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #0f172a;
+  color: #cbd5e1;
+}
+table.blueprints tbody tr:hover td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* Buttons */
+.btn { transition: all 150ms ease; }
+.btn:hover { transform: translateY(-1px); box-shadow: 0 6px 12px rgba(2,6,23,0.6); }
+.btn.primary:hover { background: #1e40af; border-color: #1e3a8a; }
+.btn.small { padding: 6px 10px; font-size: 0.9rem; }
+
+/* Inputs */
+.input:focus { outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.12); border-color: #3b82f6; }
+
+/* Blueprint canvas container */
+.blueprint-container {
+  width: 100%;
+  height: 360px; /* matches lab suggestion */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+  border-radius: 10px;
+  padding: 12px;
+  border: 1px solid #161b22;
+}
+.blueprint-canvas {
+  width: 520px; /* suggested size */
+  height: 320px;
+  background: transparent;
+  border-radius: 8px;
+  display: block;
+}
+
+/* Small UI tokens */
+.muted { color: #94a3b8; font-size: 0.9rem; }
+.badge { display:inline-block; padding:4px 8px; border-radius:999px; background:#0b1220; border:1px solid #334155; color:#cbd5e1; font-size:0.85rem }
+
+/* Responsive tweaks */
+@media (max-width: 880px) {
+  .grid { grid-template-columns: 1fr !important; }
+  .blueprint-canvas { width: 100%; height: 260px; }
+}
