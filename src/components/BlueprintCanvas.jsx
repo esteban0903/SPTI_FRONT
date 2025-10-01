@@ -31,7 +31,10 @@ export default function BlueprintCanvas({ points = [], width = 520, height = 360
       y: Number(p?.y ?? p?.Y ?? (Array.isArray(p) ? p[1] : 0)) || 0,
     }))
 
-    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity
+    let minX = Infinity,
+      minY = Infinity,
+      maxX = -Infinity,
+      maxY = -Infinity
     for (const p of numeric) {
       if (p.x < minX) minX = p.x
       if (p.y < minY) minY = p.y
@@ -39,7 +42,10 @@ export default function BlueprintCanvas({ points = [], width = 520, height = 360
       if (p.y > maxY) maxY = p.y
     }
     if (minX === Infinity) {
-      minX = 0; minY = 0; maxX = 0; maxY = 0
+      minX = 0
+      minY = 0
+      maxX = 0
+      maxY = 0
     }
     const spanX = Math.max(0.0001, maxX - minX)
     const spanY = Math.max(0.0001, maxY - minY)
@@ -83,13 +89,5 @@ export default function BlueprintCanvas({ points = [], width = 520, height = 360
     }
   }, [points])
 
-  return (
-    <canvas
-      ref={ref}
-      className="blueprint-canvas"
-      width={width}
-      height={height}
-    />
-  )
+  return <canvas ref={ref} className="blueprint-canvas" width={width} height={height} />
 }
-

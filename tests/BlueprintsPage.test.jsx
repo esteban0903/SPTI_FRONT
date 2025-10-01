@@ -23,7 +23,6 @@ function makeStore(preloaded) {
       loading: { byAuthor: false },
       errors: { byAuthor: null },
       ...preloaded,
-      
     },
     reducers: {},
   })
