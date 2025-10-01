@@ -27,7 +27,12 @@ export default function LoginPage() {
         token = payload.access_token || payload.accessToken || payload.token || payload.jwt || null
         // nested under data
         if (!token && payload.data && typeof payload.data === 'object') {
-          token = payload.data.access_token || payload.data.accessToken || payload.data.token || payload.data.jwt || null
+          token =
+            payload.data.access_token ||
+            payload.data.accessToken ||
+            payload.data.token ||
+            payload.data.jwt ||
+            null
         }
         // fallback: look for any string value that looks like a JWT
         if (!token) {

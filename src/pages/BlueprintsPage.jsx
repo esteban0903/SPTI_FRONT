@@ -22,7 +22,6 @@ export default function BlueprintsPage() {
     dispatch(fetchAuthors())
   }, [dispatch])
 
-
   const totalPoints = useMemo(
     () => items.reduce((acc, bp) => acc + (bp.points?.length || 0), 0),
     [items],
@@ -60,7 +59,7 @@ export default function BlueprintsPage() {
           <h3 style={{ marginTop: 0 }}>
             {selectedAuthor ? `${selectedAuthor}'s blueprints:` : 'Results'}
           </h3>
-          
+
           {loading.byAuthor && <p>Cargando planos del autor...</p>}
           {errors.byAuthor && (
             <div style={{ marginBottom: 8 }}>
@@ -75,52 +74,52 @@ export default function BlueprintsPage() {
             <div style={{ overflowX: 'auto' }}>
               <div className="table-wrapper">
                 <table className="blueprints">
-                <thead>
-                  <tr>
-                    <th
-                      style={{
-                        textAlign: 'left',
-                        padding: '8px',
-                        borderBottom: '1px solid #334155',
-                      }}
-                    >
-                      Blueprint name
-                    </th>
-                    <th
-                      style={{
-                        textAlign: 'right',
-                        padding: '8px',
-                        borderBottom: '1px solid #334155',
-                      }}
-                    >
-                      Number of points
-                    </th>
-                    <th style={{ padding: '8px', borderBottom: '1px solid #334155' }}></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {items.map((bp) => (
-                    <tr key={bp.name}>
-                      <td style={{ padding: '8px', borderBottom: '1px solid #1f2937' }}>
-                        {bp.name}
-                      </td>
-                      <td
+                  <thead>
+                    <tr>
+                      <th
                         style={{
+                          textAlign: 'left',
                           padding: '8px',
-                          textAlign: 'right',
-                          borderBottom: '1px solid #1f2937',
+                          borderBottom: '1px solid #334155',
                         }}
                       >
-                        {bp.points?.length || 0}
-                      </td>
-                      <td style={{ padding: '8px', borderBottom: '1px solid #1f2937' }}>
-                        <button className="btn" onClick={() => openBlueprint(bp)}>
-                          Open
-                        </button>
-                      </td>
+                        Blueprint name
+                      </th>
+                      <th
+                        style={{
+                          textAlign: 'right',
+                          padding: '8px',
+                          borderBottom: '1px solid #334155',
+                        }}
+                      >
+                        Number of points
+                      </th>
+                      <th style={{ padding: '8px', borderBottom: '1px solid #334155' }}></th>
                     </tr>
-                  ))}
-                </tbody>
+                  </thead>
+                  <tbody>
+                    {items.map((bp) => (
+                      <tr key={bp.name}>
+                        <td style={{ padding: '8px', borderBottom: '1px solid #1f2937' }}>
+                          {bp.name}
+                        </td>
+                        <td
+                          style={{
+                            padding: '8px',
+                            textAlign: 'right',
+                            borderBottom: '1px solid #1f2937',
+                          }}
+                        >
+                          {bp.points?.length || 0}
+                        </td>
+                        <td style={{ padding: '8px', borderBottom: '1px solid #1f2937' }}>
+                          <button className="btn" onClick={() => openBlueprint(bp)}>
+                            Open
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
                 </table>
               </div>
             </div>
@@ -138,7 +137,8 @@ export default function BlueprintsPage() {
             <button
               className="btn small"
               onClick={() => {
-                if (current?.author && current?.name) dispatch(fetchBlueprint({ author: current.author, name: current.name }))
+                if (current?.author && current?.name)
+                  dispatch(fetchBlueprint({ author: current.author, name: current.name }))
               }}
             >
               Reintentar

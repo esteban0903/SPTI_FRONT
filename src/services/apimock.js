@@ -78,7 +78,11 @@ export default {
       throw err
     }
     // Replace data (allow changing name)
-    store[idx] = { author: payload.author ?? author, name: payload.name ?? name, points: payload.points ?? store[idx].points }
+    store[idx] = {
+      author: payload.author ?? author,
+      name: payload.name ?? name,
+      points: payload.points ?? store[idx].points,
+    }
     return { ...store[idx], points: store[idx].points.map((p) => ({ ...p })) }
   },
 
@@ -95,9 +99,3 @@ export default {
     return { ...deleted }
   },
 }
-
-
-
-
-
-
