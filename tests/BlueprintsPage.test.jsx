@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { Provider } from 'react-redux'
+import { MemoryRouter } from 'react-router-dom'
 import { configureStore, createSlice } from '@reduxjs/toolkit'
 import BlueprintsPage from '../src/pages/BlueprintsPage.jsx'
 
@@ -9,6 +10,9 @@ vi.mock('../src/features/blueprints/blueprintsSlice.js', () => ({
   fetchAuthors: () => ({ type: 'blueprints/fetchAuthors' }),
   fetchByAuthor: (author) => ({ type: 'blueprints/fetchByAuthor', payload: author }),
   fetchBlueprint: (payload) => ({ type: 'blueprints/fetchBlueprint', payload }),
+  updateBlueprint: () => ({ type: 'blueprints/updateBlueprint' }),
+  deleteBlueprint: () => ({ type: 'blueprints/deleteBlueprint' }),
+  selectTop5ByPoints: () => [], // Mock selector that returns empty array
 }))
 
 function makeStore(preloaded) {
@@ -35,7 +39,9 @@ describe('BlueprintsPage', () => {
     const spy = vi.spyOn(store, 'dispatch')
     render(
       <Provider store={store}>
-        <BlueprintsPage />
+        <MemoryRouter>
+          <BlueprintsPage />
+        </MemoryRouter>
       </Provider>,
     )
 
