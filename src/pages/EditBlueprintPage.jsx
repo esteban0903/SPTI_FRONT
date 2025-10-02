@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { fetchBlueprint, createBlueprint } from '../features/blueprints/blueprintsSlice.js'
+import { fetchBlueprint, updateBlueprint } from '../features/blueprints/blueprintsSlice.js'
 import BlueprintForm from '../components/BlueprintForm.jsx'
 
 export default function EditBlueprintPage() {
@@ -23,15 +23,18 @@ export default function EditBlueprintPage() {
   const handleSubmit = async (blueprintData) => {
     try {
       setSuccess(false)
-      // Since we don't have PUT endpoint, we'll create a new version
-      // You could implement PUT in your backend and add it to the slice
-      const result = await dispatch(createBlueprint(blueprintData))
+      // Use updateBlueprint thunk with original and new data
+      const result = await dispatch(updateBlueprint({
+        originalAuthor: author,
+        originalName: name,
+        blueprint: blueprintData
+      }))
       
-      if (createBlueprint.fulfilled.match(result)) {
+      if (updateBlueprint.fulfilled.match(result)) {
         setSuccess(true)
-        // Redirect to the updated blueprint after 2 seconds
+        // Redirect to blueprints page after 2 seconds
         setTimeout(() => {
-          navigate(`/blueprints/${blueprintData.author}/${blueprintData.name}`)
+          navigate('/')
         }, 2000)
       }
     } catch (err) {
@@ -40,7 +43,7 @@ export default function EditBlueprintPage() {
   }
 
   const handleCancel = () => {
-    navigate(`/blueprints/${author}/${name}`)
+    navigate('/')
   }
 
   if (loading.current) {
@@ -89,22 +92,22 @@ export default function EditBlueprintPage() {
           Editing: <strong>{current.name}</strong> by <strong>{current.author}</strong>
         </p>
         
-        {loading.create && (
+        {loading.update && (
           <div style={{ padding: '12px', backgroundColor: '#1e293b', borderRadius: '6px', marginBottom: '16px' }}>
             <p style={{ margin: 0, color: '#94a3b8' }}>Updating blueprint...</p>
           </div>
         )}
         
-        {errors.create && (
+        {errors.update && (
           <div style={{ padding: '12px', backgroundColor: '#7f1d1d', borderRadius: '6px', marginBottom: '16px' }}>
-            <p style={{ margin: 0, color: '#f87171' }}>Error: {errors.create}</p>
+            <p style={{ margin: 0, color: '#f87171' }}>Error: {errors.update}</p>
           </div>
         )}
         
         {success && (
           <div style={{ padding: '12px', backgroundColor: '#14532d', borderRadius: '6px', marginBottom: '16px' }}>
             <p style={{ margin: 0, color: '#4ade80' }}>
-              ✅ Blueprint updated successfully! Redirecting to view...
+              ✅ Blueprint updated successfully! Redirecting to blueprints...
             </p>
           </div>
         )}
@@ -119,7 +122,7 @@ export default function EditBlueprintPage() {
             type="button" 
             className="btn" 
             onClick={handleCancel}
-            disabled={loading.create}
+            disabled={loading.update}
           >
             Cancel
           </button>

@@ -68,34 +68,48 @@ export default {
     return { ...bp }
   },
 
-  // Update existing blueprint (replace points or name). payload: { author, name, points }
+  // Update an existing blueprint
   async update(author, name, payload) {
     await delay(120)
-    const idx = store.findIndex((bp) => bp.author === author && bp.name === name)
-    if (idx === -1) {
-      const err = new Error('Not found')
+    const index = store.findIndex((bp) => bp.author === author && bp.name === name)
+    if (index === -1) {
+      const err = new Error('Blueprint not found')
       err.code = 'NOT_FOUND'
       throw err
     }
-    // Replace data (allow changing name)
-    store[idx] = {
-      author: payload.author ?? author,
-      name: payload.name ?? name,
-      points: payload.points ?? store[idx].points,
+    // Update the blueprint with new data
+    store[index] = { 
+      author: payload.author || author, 
+      name: payload.name || name, 
+      points: payload.points || store[index].points 
     }
-    return { ...store[idx], points: store[idx].points.map((p) => ({ ...p })) }
+    return { ...store[index] }
   },
 
-  // Delete blueprint
-  async remove(author, name) {
+  // Delete a blueprint
+  async delete(author, name) {
     await delay(100)
-    const idx = store.findIndex((bp) => bp.author === author && bp.name === name)
-    if (idx === -1) {
-      const err = new Error('Not found')
+    const index = store.findIndex((bp) => bp.author === author && bp.name === name)
+    if (index === -1) {
+      const err = new Error('Blueprint not found')
       err.code = 'NOT_FOUND'
       throw err
     }
-    const deleted = store.splice(idx, 1)[0]
-    return { ...deleted }
+    
+    // Simulate occasional server failures for optimistic update testing
+    if (Math.random() < 0.2) {
+      const err = new Error('Server error: could not delete blueprint')
+      err.code = 'SERVER_ERROR'
+      throw err
+    }
+    
+    const deleted = store.splice(index, 1)[0]
+    return { success: true, deleted: { ...deleted } }
   },
 }
+
+
+
+
+
+
