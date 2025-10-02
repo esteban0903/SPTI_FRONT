@@ -5,6 +5,7 @@ import {
   fetchAuthors,
   fetchByAuthor,
   fetchBlueprint,
+  deleteBlueprint,
   selectTop5ByPoints,
 } from '../features/blueprints/blueprintsSlice.js'
 import BlueprintCanvas from '../components/BlueprintCanvas.jsx'
@@ -45,6 +46,17 @@ export default function BlueprintsPage() {
     navigate(`/edit/${bp.author}/${bp.name}`)
   }
 
+  const handleDelete = async (bp) => {
+    if (window.confirm(`Are you sure you want to delete "${bp.name}" by ${bp.author}?`)) {
+      try {
+        await dispatch(deleteBlueprint({ author: bp.author, name: bp.name }))
+      } catch (error) {
+        console.error('Delete failed:', error)
+        // Error handling is done in the slice
+      }
+    }
+  }
+
   return (
     <div className="grid" style={{ gridTemplateColumns: '1.1fr 1.4fr', gap: 24 }}>
       <section className="grid" style={{ gap: 16 }}>
@@ -75,6 +87,16 @@ export default function BlueprintsPage() {
               <button className="btn small" onClick={() => getBlueprints()}>
                 Reintentar
               </button>
+            </div>
+          )}
+          {errors.delete && (
+            <div style={{ marginBottom: 8, padding: '8px', backgroundColor: '#7f1d1d', borderRadius: '4px' }}>
+              <p style={{ color: '#f87171', margin: 0 }}>
+                Delete failed: {errors.delete}
+              </p>
+              <p style={{ color: '#fca5a5', fontSize: '0.875rem', margin: '4px 0 0 0' }}>
+                Please refresh the page to see the current state.
+              </p>
             </div>
           )}
           {!items.length && status !== 'loading' && <p>Sin resultados.</p>}
@@ -130,6 +152,13 @@ export default function BlueprintsPage() {
                               onClick={() => editBlueprint(bp)}
                             >
                               Edit
+                            </button>
+                            <button 
+                              className="btn small secondary" 
+                              onClick={() => handleDelete(bp)}
+                              disabled={loading.delete}
+                            >
+                              Delete
                             </button>
                           </div>
                         </td>
@@ -224,9 +253,18 @@ export default function BlueprintsPage() {
                           {bp.points?.length || 0}
                         </td>
                         <td style={{ padding: '8px', borderBottom: '1px solid #1f2937' }}>
-                          <button className="btn small" onClick={() => openBlueprint(bp)}>
-                            View
-                          </button>
+                          <div style={{ display: 'flex', gap: '4px' }}>
+                            <button className="btn small" onClick={() => openBlueprint(bp)}>
+                              View
+                            </button>
+                            <button 
+                              className="btn small secondary" 
+                              onClick={() => handleDelete(bp)}
+                              disabled={loading.delete}
+                            >
+                              Del
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}

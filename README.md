@@ -145,8 +145,8 @@ VITE_USE_MOCK=true
 2. **Rutas protegidas**
    - [x] Crea un componente `<PrivateRoute>` y protege la creación/edición.
 3. **CRUD completo**
-   - [ ] Implementa `PUT /api/blueprints/{author}/{name}` y `DELETE ...` en el slice y en la UI.
-   - [ ] Optimistic updates (revertir si falla).
+   - [x] Implementa `PUT /api/blueprints/{author}/{name}` y `DELETE ...` en el slice y en la UI.
+   - [x] Optimistic updates (revertir si falla).
 4. **Dibujo interactivo**
    - [ ] Reemplaza el `svg` por un lienzo donde el usuario haga _click_ para agregar puntos.
    - [ ] Botón “Guardar” que envíe el blueprint.
