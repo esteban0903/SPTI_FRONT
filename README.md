@@ -151,7 +151,7 @@ VITE_USE_MOCK=true
    - [ ] Reemplaza el `svg` por un lienzo donde el usuario haga _click_ para agregar puntos.
    - [ ] Botón “Guardar” que envíe el blueprint.
 5. **Errores y _Retry_**
-   - [ ] Si `GET` falla, muestra un banner y un botón **Reintentar** que dispare el thunk.
+   - [x] Si `GET` falla, muestra un banner y un botón **Reintentar** que dispare el thunk.
 6. **Testing**
    - [ ] Pruebas de `blueprintsSlice` (reducers puros).
    - [ ] Pruebas de componentes con Testing Library (render, interacción).
