@@ -60,6 +60,8 @@ export default function BlueprintsPage() {
   return (
     <div className="grid" style={{ gridTemplateColumns: '1.1fr 1.4fr', gap: 24 }}>
       <section className="grid" style={{ gap: 16 }}>
+
+
         <div className="card">
           <h2 style={{ marginTop: 0 }}>Blueprints</h2>
           <div style={{ display: 'flex', gap: 12 }}>
@@ -82,11 +84,28 @@ export default function BlueprintsPage() {
 
           {loading.byAuthor && <p>Cargando planos del autor...</p>}
           {errors.byAuthor && (
-            <div style={{ marginBottom: 8 }}>
-              <p style={{ color: '#f87171' }}>Error: {errors.byAuthor}</p>
-              <button className="btn small" onClick={() => getBlueprints()}>
-                Reintentar
-              </button>
+            <div style={{ 
+              marginBottom: 16, 
+              padding: '12px', 
+              backgroundColor: '#7f1d1d', 
+              borderRadius: '6px',
+              border: '1px solid #991b1b'
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                  <h4 style={{ margin: 0, color: '#f87171', fontSize: '0.9rem' }}>❌ Failed to load blueprints</h4>
+                  <p style={{ margin: '4px 0 0 0', color: '#fca5a5', fontSize: '0.8rem' }}>
+                    {errors.byAuthor}
+                  </p>
+                </div>
+                <button 
+                  className="btn small" 
+                  onClick={() => getBlueprints()}
+                  disabled={loading.byAuthor}
+                >
+                  {loading.byAuthor ? 'Retrying...' : 'Retry'}
+                </button>
+              </div>
             </div>
           )}
           {errors.delete && (
@@ -282,15 +301,6 @@ export default function BlueprintsPage() {
         {errors.current && (
           <div style={{ marginBottom: 8 }}>
             <p style={{ color: '#f87171' }}>Error: {errors.current}</p>
-            <button
-              className="btn small"
-              onClick={() => {
-                if (current?.author && current?.name)
-                  dispatch(fetchBlueprint({ author: current.author, name: current.name }))
-              }}
-            >
-              Reintentar
-            </button>
           </div>
         )}
         <div className="blueprint-container">
