@@ -143,7 +143,7 @@ VITE_USE_MOCK=true
    - [x] Agrega estados `loading/error` por _thunk_ y muéstralos en la UI.
    - [x] Implementa _memo selectors_ para derivar el top-5 de blueprints por cantidad de puntos.
 2. **Rutas protegidas**
-   - [ ] Crea un componente `<PrivateRoute>` y protege la creación/edición.
+   - [x] Crea un componente `<PrivateRoute>` y protege la creación/edición.
 3. **CRUD completo**
    - [ ] Implementa `PUT /api/blueprints/{author}/{name}` y `DELETE ...` en el slice y en la UI.
    - [ ] Optimistic updates (revertir si falla).

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import {
   fetchAuthors,
   fetchByAuthor,
@@ -10,6 +11,7 @@ import BlueprintCanvas from '../components/BlueprintCanvas.jsx'
 
 export default function BlueprintsPage() {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { byAuthor, current, status } = useSelector((s) => s.blueprints)
   const loading = useSelector((s) => s.blueprints.loading)
   const errors = useSelector((s) => s.blueprints.errors)
@@ -37,6 +39,10 @@ export default function BlueprintsPage() {
 
   const openBlueprint = (bp) => {
     dispatch(fetchBlueprint({ author: bp.author, name: bp.name }))
+  }
+
+  const editBlueprint = (bp) => {
+    navigate(`/edit/${bp.author}/${bp.name}`)
   }
 
   return (
@@ -96,7 +102,7 @@ export default function BlueprintsPage() {
                       >
                         Number of points
                       </th>
-                      <th style={{ padding: '8px', borderBottom: '1px solid #334155' }}></th>
+                      <th style={{ padding: '8px', borderBottom: '1px solid #334155' }}>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -115,9 +121,17 @@ export default function BlueprintsPage() {
                           {bp.points?.length || 0}
                         </td>
                         <td style={{ padding: '8px', borderBottom: '1px solid #1f2937' }}>
-                          <button className="btn" onClick={() => openBlueprint(bp)}>
-                            Open
-                          </button>
+                          <div style={{ display: 'flex', gap: '8px' }}>
+                            <button className="btn small" onClick={() => openBlueprint(bp)}>
+                              Open
+                            </button>
+                            <button 
+                              className="btn small secondary" 
+                              onClick={() => editBlueprint(bp)}
+                            >
+                              Edit
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
