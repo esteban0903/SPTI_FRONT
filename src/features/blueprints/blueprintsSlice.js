@@ -135,7 +135,28 @@ const slice = createSlice({
         if (s.byAuthor[originalAuthor]) {
           const index = s.byAuthor[originalAuthor].findIndex(bp => bp.name === originalName)
           if (index !== -1) {
-            s.byAuthor[originalAuthor][index] = updated
+            // Check if name or author changed
+            const nameChanged = updated.name !== originalName
+            const authorChanged = updated.author !== originalAuthor
+            
+            if (!nameChanged && !authorChanged) {
+              // Simple update: just replace in-place (no name/author change)
+              s.byAuthor[originalAuthor][index] = updated
+            } else {
+              // Name or author changed: remove old, add new
+              s.byAuthor[originalAuthor].splice(index, 1)
+              
+              // If author changed, add to new author's array
+              if (authorChanged) {
+                if (!s.byAuthor[updated.author]) {
+                  s.byAuthor[updated.author] = []
+                }
+                s.byAuthor[updated.author].push(updated)
+              } else {
+                // Same author, add back to same array
+                s.byAuthor[originalAuthor].push(updated)
+              }
+            }
           }
         }
         

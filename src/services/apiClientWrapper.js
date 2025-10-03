@@ -26,17 +26,27 @@ export default {
     const res = await api.post('/api/v1/blueprints', payload)
     return res.data.data || res.data
   },
+
   async update(author, name, payload) {
     const res = await api.put(
       `/api/v1/blueprints/${encodeURIComponent(author)}/${encodeURIComponent(name)}`,
-      payload,
+      payload
     )
     return res.data.data || res.data
   },
+
   async remove(author, name) {
     const res = await api.delete(
-      `/api/v1/blueprints/${encodeURIComponent(author)}/${encodeURIComponent(name)}`,
+      `/api/v1/blueprints/${encodeURIComponent(author)}/${encodeURIComponent(name)}`
     )
-    return res.data.data || res.data
+    return res.data
+  },
+
+  async delete(author, name) {
+    const res = await api.delete(
+      `/api/v1/blueprints/${encodeURIComponent(author)}/${encodeURIComponent(name)}`
+    )
+    return res.data
   },
 }
+
