@@ -87,7 +87,7 @@ export default {
   },
 
   // Delete a blueprint
-  async delete(author, name) {
+  async remove(author, name) {
     await delay(100)
     const index = store.findIndex((bp) => bp.author === author && bp.name === name)
     if (index === -1) {
@@ -105,6 +105,11 @@ export default {
     
     const deleted = store.splice(index, 1)[0]
     return { success: true, deleted: { ...deleted } }
+  },
+
+  // Alias for remove (for compatibility)
+  async delete(author, name) {
+    return this.remove(author, name)
   },
 }
 
