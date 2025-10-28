@@ -1,6 +1,44 @@
 import { createAsyncThunk, createSlice, createSelector } from '@reduxjs/toolkit'
 import api from '../../services/blueprintsService.js'
 
+// Helper to keep reducer simple and reduce cognitive complexity
+function applyUpdatedBlueprint(state, originalAuthor, originalName, updated) {
+  const list = state.byAuthor[originalAuthor]
+  if (!list) return
+
+  const index = list.findIndex((bp) => bp.name === originalName)
+  if (index === -1) return
+
+  const nameChanged = updated.name !== originalName
+  const authorChanged = updated.author !== originalAuthor
+
+  if (!nameChanged && !authorChanged) {
+    // Simple in-place replace
+    state.byAuthor[originalAuthor][index] = updated
+    return
+  }
+
+  // Name or author changed: remove old and add new
+  state.byAuthor[originalAuthor].splice(index, 1)
+
+  if (authorChanged) {
+    if (!state.byAuthor[updated.author]) state.byAuthor[updated.author] = []
+    state.byAuthor[updated.author].push(updated)
+  } else {
+    // Same author, add back to same array
+    state.byAuthor[originalAuthor].push(updated)
+  }
+
+  // Update current if it matches the edited blueprint
+  if (
+    state.current &&
+    state.current.author === originalAuthor &&
+    state.current.name === originalName
+  ) {
+    state.current = updated
+  }
+}
+
 export const fetchAuthors = createAsyncThunk('blueprints/fetchAuthors', async () => {
   // service.getAll() should return array of { author, name, points }
   const blueprints = await api.getAll()
@@ -130,40 +168,7 @@ const slice = createSlice({
         s.loading.update = false
         s.errors.update = null
         const { originalAuthor, originalName, updated } = a.payload
-        
-        // Update in byAuthor store
-        if (s.byAuthor[originalAuthor]) {
-          const index = s.byAuthor[originalAuthor].findIndex(bp => bp.name === originalName)
-          if (index !== -1) {
-            // Check if name or author changed
-            const nameChanged = updated.name !== originalName
-            const authorChanged = updated.author !== originalAuthor
-            
-            if (!nameChanged && !authorChanged) {
-              // Simple update: just replace in-place (no name/author change)
-              s.byAuthor[originalAuthor][index] = updated
-            } else {
-              // Name or author changed: remove old, add new
-              s.byAuthor[originalAuthor].splice(index, 1)
-              
-              // If author changed, add to new author's array
-              if (authorChanged) {
-                if (!s.byAuthor[updated.author]) {
-                  s.byAuthor[updated.author] = []
-                }
-                s.byAuthor[updated.author].push(updated)
-              } else {
-                // Same author, add back to same array
-                s.byAuthor[originalAuthor].push(updated)
-              }
-            }
-          }
-        }
-        
-        // Update current if it's the same blueprint
-        if (s.current && s.current.author === originalAuthor && s.current.name === originalName) {
-          s.current = updated
-        }
+        applyUpdatedBlueprint(s, originalAuthor, originalName, updated)
       })
       .addCase(updateBlueprint.rejected, (s, a) => {
         s.loading.update = false
@@ -195,7 +200,6 @@ const slice = createSlice({
         s.errors.delete = a.error?.message || String(a.error)
         
         // REVERT OPTIMISTIC UPDATE: Restore the blueprint
-        const { author, name } = a.meta.arg
         // Note: In a real app, you'd need to store the original blueprint to restore it
         // For this demo, we'll just show an error and let user refresh
       })
