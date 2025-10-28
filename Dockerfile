@@ -12,4 +12,9 @@ WORKDIR /app
 RUN npm i -g serve
 COPY --from=build /app/dist ./dist
 EXPOSE 4173
+# Create a non-root user for running the static server (security hardening)
+RUN addgroup -S app && adduser -S app -G app
+RUN chown -R app:app /app
+USER app
+
 CMD [ "serve", "-s", "dist", "-l", "4173" ]

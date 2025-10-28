@@ -12,3 +12,7 @@ services:
     image: ghcr.io/your-org/blueprints-backend:latest
     ports:
       - '8080:8080'
+    # Security hardening: prevent privilege escalation and make root fs read-only
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
