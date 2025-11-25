@@ -9,6 +9,7 @@
 - Integrar **autenticación JWT** con interceptores y rutas protegidas.
 - Aplicar buenas prácticas: estructura de carpetas, `.env`, linters, testing, CI.
 
+
 ## Requisitos previos
 
 - Tener corriendo el backend de Blueprints de los **Labs 3 y 4** (APIs + seguridad).
